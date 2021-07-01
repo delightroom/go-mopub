@@ -14,6 +14,10 @@ type ApiClient struct {
 	ApiKey string `json:"api_key"`
 }
 
+func NewApiClient(apiKey string) ApiClient {
+	return ApiClient{ApiKey: apiKey}
+}
+
 func (a ApiClient) GetLineItem(aa string) (string, error) {
 	return aa, nil
 }
