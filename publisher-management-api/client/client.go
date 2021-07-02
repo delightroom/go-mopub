@@ -18,7 +18,7 @@ type OverrideFields struct {
 type LineItemGetResponseValue struct {
 	AdUnitKeys                   []string       `json:"adUnitKeys"`
 	Advertiser                   string         `json:"advertiser"`
-	AllocationPercentage         int            `json:"allocationPercentage"`
+	AllocationPercentage         float64        `json:"allocationPercentage"`
 	AutoCpm                      float64        `json:"autoCpm"`
 	Bid                          float64        `json:"bid"`
 	Budget                       string         `json:"budget"`
