@@ -137,4 +137,4 @@ func (a apiClient) GetLineItem(lineItemId string) (lineItemGetResponseValue, err
 	return result, nil
 }
 
-func (a apiClient) PostLineItem(lineItemId string)
+// func (a apiClient) PostLineItem(lineItemId string){}
