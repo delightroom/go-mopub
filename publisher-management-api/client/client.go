@@ -16,53 +16,65 @@ type OverrideFields struct {
 
 // LineItemGetResponseValue is a struct to get 'data' value of lineitem get request via MoPub Publisher Management API
 type LineItemGetResponseValue struct {
-	AdUnitKeys                   []string       `json:"adUnitKeys"`
-	Advertiser                   string         `json:"advertiser"`
-	AllocationPercentage         float64        `json:"allocationPercentage"`
-	AutoCpm                      float64        `json:"autoCpm"`
-	Bid                          float64        `json:"bid"`
-	Budget                       string         `json:"budget"`
-	BudgetStrategy               string         `json:"budgetStrategy"`
-	BudgetType                   string         `json:"budgetType"`
-	DayParts                     []string       `json:"dayParts"`
-	DayPartTargeting             string         `json:"dayPartTargeting"`
-	DeviceTargeting              bool           `json:"deviceTargeting"`
-	DisallowAutoCpm              bool           `json:"disallowAutoCpm"`
-	MaxAndroidVersion            int            `json:"maxAndroidVersion"`
-	MinAndroidVersion            float64        `json:"minAndroidVersion"`
-	MaxIosVersion                int            `json:"maxIosVersion"`
-	MinIosVersion                float64        `json:"minIosVersion"`
-	TargetAndroid                bool           `json:"targetAndroid"`
-	TargetIos                    bool           `json:"targetIos"`
-	TargetIphone                 bool           `json:"targetIphone"`
-	TargetIpad                   bool           `json:"targetIpad"`
-	TargetIpod                   bool           `json:"targetIpod"`
-	Idfa_targeting               string         `json:"idfa_targeting"`
-	End                          string         `json:"end"`
-	FrequencyCaps                []string       `json:"frequencyCaps"`
-	FrequencyCapsEnabled         bool           `json:"frequencyCapsEnabled"`
-	IncludeConnectivityTargeting string         `json:"includeConnectivityTargeting"`
-	TargetedCarriers             []string       `json:"targetedCarriers"`
-	IncludeGeoTargeting          string         `json:"includeGeoTargeting"`
-	Key                          string         `json:"key"`
-	Keywords                     []string       `json:"keywords"`
-	Name                         string         `json:"name"`
-	NetworkType                  string         `json:"networkType"`
-	OrderKey                     string         `json:"orderKey"`
-	OrderName                    string         `json:"orderName"`
-	Priority                     int            `json:"priority"`
-	RefreshInterval              int            `json:"refreshInterval"`
-	Start                        string         `json:"start"`
-	Status                       string         `json:"status"`
-	TargetedCountries            []string       `json:"targetedCountries"`
-	TargetedRegions              []string       `json:"targetedRegions"`
-	TargetedCities               []string       `json:"targetedCities"`
-	TargetedZipCodes             []string       `json:"targetedZipCodes"`
-	Type                         string         `json:"type"`
-	UserAppsTargeting            string         `json:"userAppsTargeting"`
-	UserAppsTargetingList        []string       `json:"userAppsTargetingList"`
-	EnableOverrides              bool           `json:"enableOverrides"`
-	OverrideFields               OverrideFields `json:"overrideFields"`
+	AdUnitKeys []string `json:"adUnitKeys"`
+	Advertiser string   `json:"advertiser"`
+	//docs-int
+	AllocationPercentage float64  `json:"allocationPercentage"`
+	AutoCpm              float64  `json:"autoCpm"`
+	Bid                  float64  `json:"bid"`
+	Budget               string   `json:"budget"`
+	BudgetStrategy       string   `json:"budgetStrategy"`
+	BudgetType           string   `json:"budgetType"`
+	DayParts             []string `json:"dayParts"`
+	DayPartTargeting     string   `json:"dayPartTargeting"`
+	DeviceTargeting      bool     `json:"deviceTargeting"`
+	DisallowAutoCpm      bool     `json:"disallowAutoCpm"`
+	//docs-int
+	MaxAndroidVersion string `json:"maxAndroidVersion"`
+	//docs-double
+	MinAndroidVersion string `json:"minAndroidVersion"`
+	//docs-int
+	MaxIosVersion string `json:"maxIosVersion"`
+	//docs-double
+	MinIosVersion string `json:"minIosVersion"`
+	TargetAndroid bool   `json:"targetAndroid"`
+	TargetIos     bool   `json:"targetIos"`
+	TargetIphone  bool   `json:"targetIphone"`
+	TargetIpad    bool   `json:"targetIpad"`
+	TargetIpod    bool   `json:"targetIpod"`
+	//order might be different
+	Idfa_targeting               string   `json:"idfa_targeting"`
+	End                          string   `json:"end"`
+	FrequencyCaps                []string `json:"frequencyCaps"`
+	FrequencyCapsEnabled         bool     `json:"frequencyCapsEnabled"`
+	IncludeConnectivityTargeting string   `json:"includeConnectivityTargeting"`
+	TargetedCarriers             []string `json:"targetedCarriers"`
+	IncludeGeoTargeting          string   `json:"includeGeoTargeting"`
+	Key                          string   `json:"key"`
+	Keywords                     []string `json:"keywords"`
+	Name                         string   `json:"name"`
+	NetworkType                  string   `json:"networkType"`
+	OrderKey                     string   `json:"orderKey"`
+	OrderName                    string   `json:"orderName"`
+	Priority                     int      `json:"priority"`
+	RefreshInterval              int      `json:"refreshInterval"`
+	Start                        string   `json:"start"`
+	Status                       string   `json:"status"`
+	TargetedCountries            []string `json:"targetedCountries"`
+	TargetedRegions              []string `json:"targetedRegions"`
+	TargetedCities               []string `json:"targetedCities"`
+	TargetedZipCodes             []string `json:"targetedZipCodes"`
+	Type                         string   `json:"type"`
+	UserAppsTargeting            string   `json:"userAppsTargeting"`
+	UserAppsTargetingList        []string `json:"userAppsTargetingList"`
+	//optinal? doesn't exist on our test requests
+	EnableOverrides bool `json:"enableOverrides"`
+	//optinal? doesn't exist on our test requests
+	OverrideFields OverrideFields `json:"overrideFields"`
+	//optinal? doesn't exist on docs but our test requests
+	AllowVideo string `json:"allowVideo"`
+	//optinal? doesn't exist on docs but our test requests
+	VideoSetting string `json:"videoSetting"`
 }
 
 //LineItemGetResponse is a struct to get value of line item via MoPub Publisher Management API
