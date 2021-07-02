@@ -127,14 +127,14 @@ func (a apiClient) GetLineItem(lineItemId string) (LineItemGetResponseValue, err
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
 	fmt.Println("str...", str)
-	var LineItemGetResponse LineItemGetResponse
+	var lineItemGetResponse LineItemGetResponse
 
-	err = json.Unmarshal([]byte(str), &resp)
+	err = json.Unmarshal([]byte(str), &lineItemGetResponse)
 	if err != nil {
 		return LineItemGetResponseValue{}, err
 	}
 
-	result := LineItemGetResponse.LineItemGetResponseValue
+	result := lineItemGetResponse.LineItemGetResponseValue
 	return result, nil
 }
 
