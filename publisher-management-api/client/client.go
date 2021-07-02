@@ -94,7 +94,8 @@ type apiClient struct {
 	BaseUrl string `json:"base_url"`
 }
 
-func newApiClient(apiKey string) apiClient {
+// MakeNewApiClient makes a new Api client for Mopub Publisher management API calls
+func MakeNewApiClient(apiKey string) apiClient {
 	return apiClient{ApiKey: apiKey, BaseUrl: BaseUrl}
 }
 
