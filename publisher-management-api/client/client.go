@@ -7,15 +7,15 @@ import (
 	"net/http"
 )
 
-// overrideFields is a subset field of LineItemGetResponseValue
-type overrideFields struct {
+// OverrideFields is a subset field of LineItemGetResponseValue
+type OverrideFields struct {
 	Network_app_id     string `json:"network_app_id"`
 	Network_adunit_id  string `json:"network_adunit_id"`
 	Network_account_id string `json:"network_account_id"`
 }
 
-// lineItemGetResponseValue is a struct to get 'data' value of lineitem get request via MoPub Publisher Management API
-type lineItemGetResponseValue struct {
+// LineItemGetResponseValue is a struct to get 'data' value of lineitem get request via MoPub Publisher Management API
+type LineItemGetResponseValue struct {
 	AdUnitKeys                   []string       `json:"adUnitKeys"`
 	Advertiser                   string         `json:"advertiser"`
 	AllocationPercentage         int            `json:"allocationPercentage"`
@@ -62,23 +62,23 @@ type lineItemGetResponseValue struct {
 	UserAppsTargeting            string         `json:"userAppsTargeting"`
 	UserAppsTargetingList        []string       `json:"userAppsTargetingList"`
 	EnableOverrides              bool           `json:"enableOverrides"`
-	OverrideFields               overrideFields `json:"overrideFields"`
+	OverrideFields               OverrideFields `json:"overrideFields"`
 }
 
-//lineItemGetResponse is a struct to get value of line item via MoPub Publisher Management API
-type lineItemGetResponse struct {
-	LineItemGetResponseValue lineItemGetResponseValue `json:"data"`
+//LineItemGetResponse is a struct to get value of line item via MoPub Publisher Management API
+type LineItemGetResponse struct {
+	LineItemGetResponseValue LineItemGetResponseValue `json:"data"`
 }
 
-//lineItemPostBodyData is subset of LineItemUpdateBody to carry a bid number to be updated
-type lineItemPostBodyData struct {
+//LineItemPostBodyData is subset of LineItemUpdateBody to carry a bid number to be updated
+type LineItemPostBodyData struct {
 	Bid float64 `json:"bid"`
 }
 
-//lineItemPostBody is a struct for a body parameter of Mopub lineitem post API
-type lineItemPostBody struct {
+//LineItemPostBody is a struct for a body parameter of Mopub lineitem post API
+type LineItemPostBody struct {
 	Op   string               `json:"op"`
-	Data lineItemPostBodyData `json:"data"`
+	Data LineItemPostBodyData `json:"data"`
 }
 
 var BaseUrl = "https://api.mopub.com/v2/line-items/"
@@ -99,7 +99,7 @@ func MakeNewApiClient(apiKey string) apiClient {
 	return apiClient{ApiKey: apiKey, BaseUrl: BaseUrl}
 }
 
-func (a apiClient) GetLineItem(lineItemId string) (lineItemGetResponseValue, error) {
+func (a apiClient) GetLineItem(lineItemId string) (LineItemGetResponseValue, error) {
 	mopubGetUrl := a.BaseUrl + lineItemId
 	req, err := http.NewRequest("GET", mopubGetUrl, nil)
 
@@ -108,18 +108,18 @@ func (a apiClient) GetLineItem(lineItemId string) (lineItemGetResponseValue, err
 	req.Header.Add("x-api-key", a.ApiKey)
 
 	if err != nil {
-		return lineItemGetResponseValue{}, err
+		return LineItemGetResponseValue{}, err
 	}
 
 	// initialize http client
 	client := &http.Client{}
 	if err != nil {
-		return lineItemGetResponseValue{}, err
+		return LineItemGetResponseValue{}, err
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return lineItemGetResponseValue{}, err
+		return LineItemGetResponseValue{}, err
 	}
 
 	defer resp.Body.Close()
@@ -127,11 +127,11 @@ func (a apiClient) GetLineItem(lineItemId string) (lineItemGetResponseValue, err
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
 	fmt.Println("str...", str)
-	var LineItemGetResponse lineItemGetResponse
+	var LineItemGetResponse LineItemGetResponse
 
 	err = json.Unmarshal([]byte(str), &resp)
 	if err != nil {
-		return lineItemGetResponseValue{}, err
+		return LineItemGetResponseValue{}, err
 	}
 
 	result := LineItemGetResponse.LineItemGetResponseValue
