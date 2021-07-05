@@ -98,7 +98,8 @@ var BaseUrl = "https://api.mopub.com/v2/line-items/"
 
 //client is an interface to make get/post request to MoPub publisher management API
 type client interface {
-	GetLineItem(aa string) (string, error)
+	GetLineItem(lineItemId string) (string, error)
+	PutLineItemBid(lineItemId string, newBid float64) (string, error)
 }
 
 //apiClient is an implementation of a client interface with Apikey and Mopub Publisher management API url
@@ -113,8 +114,8 @@ func GenerateApiClient(apiKey string) apiClient {
 }
 
 func (a apiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error) {
-	mopubGetUrl := a.BaseUrl + lineItemId
-	req, err := http.NewRequest("GET", mopubGetUrl, nil)
+	mopubUrl := a.BaseUrl + lineItemId
+	req, err := http.NewRequest("GET", mopubUrl, nil)
 
 	// set the request header Content-Type for json
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
@@ -152,7 +153,7 @@ func (a apiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error)
 }
 
 func (a apiClient) PutLineItemBid(lineItemId string, newBid float64) (LineItemResponseValue, error) {
-	mopubPutUrl := a.BaseUrl + lineItemId
+	mopubUrl := a.BaseUrl + lineItemId
 
 	data := &LineItemPutBodyData{Bid: newBid}
 	c := &LineItemPutBody{
@@ -165,7 +166,7 @@ func (a apiClient) PutLineItemBid(lineItemId string, newBid float64) (LineItemRe
 	if err != nil {
 		return LineItemResponseValue{}, err
 	}
-	req, err := http.NewRequest(http.MethodPut, mopubPutUrl, bytes.NewBuffer(buff))
+	req, err := http.NewRequest(http.MethodPut, mopubUrl, bytes.NewBuffer(buff))
 
 	// set the request header Content-Type for json
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
@@ -191,7 +192,6 @@ func (a apiClient) PutLineItemBid(lineItemId string, newBid float64) (LineItemRe
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
 	fmt.Println("str...", str)
-
 	var LineItemResponse LineItemResponse
 
 	err = json.Unmarshal([]byte(str), &LineItemResponse)
