@@ -102,18 +102,18 @@ type client interface {
 	PutLineItemBid(lineItemId string, newBid float64) (string, error)
 }
 
-//apiClient is an implementation of a client interface with Apikey and Mopub Publisher management API url
-type apiClient struct {
+//ApiClient is an implementation of a client interface with Apikey and Mopub Publisher management API url
+type ApiClient struct {
 	ApiKey  string `json:"api_key"`
 	BaseUrl string `json:"base_url"`
 }
 
 // GenerateApiClient makes a new Api client for Mopub Publisher management API calls
-func GenerateApiClient(apiKey string) apiClient {
-	return apiClient{ApiKey: apiKey, BaseUrl: BaseUrl}
+func GenerateApiClient(apiKey string) ApiClient {
+	return ApiClient{ApiKey: apiKey, BaseUrl: BaseUrl}
 }
 
-func (a apiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error) {
+func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error) {
 	mopubUrl := a.BaseUrl + lineItemId
 	req, err := http.NewRequest("GET", mopubUrl, nil)
 
@@ -152,7 +152,7 @@ func (a apiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error)
 	return result, nil
 }
 
-func (a apiClient) PutLineItemBid(lineItemId string, newBid float64) (LineItemResponseValue, error) {
+func (a ApiClient) PutLineItemBid(lineItemId string, newBid float64) (LineItemResponseValue, error) {
 	mopubUrl := a.BaseUrl + lineItemId
 
 	data := &LineItemPutBodyData{Bid: newBid}
