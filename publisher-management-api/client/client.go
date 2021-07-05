@@ -94,10 +94,11 @@ type LineItemPutBody struct {
 	Data LineItemPutBodyData `json:"data"`
 }
 
-var BaseUrl = "https://api.mopub.com/v2/line-items/"
+var baseUrl = "https://api.mopub.com/v2/line-items/"
 
-//client is an interface to make get/post request to MoPub publisher management API
-type client interface {
+//QQQ
+//Client is an interface to make get/post request to MoPub publisher management API
+type Client interface {
 	GetLineItem(lineItemId string) (string, error)
 	PutLineItemBid(lineItemId string, newBid float64) (string, error)
 }
@@ -110,7 +111,7 @@ type ApiClient struct {
 
 // GenerateApiClient makes a new Api client for Mopub Publisher management API calls
 func GenerateApiClient(apiKey string) ApiClient {
-	return ApiClient{ApiKey: apiKey, BaseUrl: BaseUrl}
+	return ApiClient{ApiKey: apiKey, BaseUrl: baseUrl}
 }
 
 func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error) {
