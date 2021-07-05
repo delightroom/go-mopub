@@ -140,7 +140,7 @@ func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error)
 	fmt.Println("📩 getApi resp.StatusCode:", resp.StatusCode)
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
-	fmt.Println("str...", str)
+
 	var LineItemResponse LineItemResponse
 
 	err = json.Unmarshal([]byte(str), &LineItemResponse)
@@ -191,7 +191,7 @@ func (a ApiClient) PutLineItemBid(lineItemId string, newBid float64) (LineItemRe
 	fmt.Println("📮postApi resp.StatusCode:", resp.StatusCode)
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
-	fmt.Println("str...", str)
+
 	var LineItemResponse LineItemResponse
 
 	err = json.Unmarshal([]byte(str), &LineItemResponse)
