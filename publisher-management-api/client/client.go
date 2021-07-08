@@ -85,7 +85,8 @@ type LineItemResponse struct {
 
 //LineItemPutBodyData is subset of LineItemUpdateBody to carry a bid number to be updated
 type LineItemPutBodyData struct {
-	Bid float64 `json:"bid"`
+	Name string  `json:"name,omitempty"`
+	Bid  float64 `json:"bid,omitempty"`
 }
 
 //LineItemPutBody is a struct for a body parameter of Mopub lineitem post API
@@ -94,13 +95,13 @@ type LineItemPutBody struct {
 	Data LineItemPutBodyData `json:"data"`
 }
 
-var baseUrl = "https://api.mopub.com/v2/line-items/"
+var DefaultBaseUrl = "https://api.mopub.com/v2/line-items/"
 
 //QQQ
 //Client is an interface to make get/post request to MoPub publisher management API
 type Client interface {
 	GetLineItem(lineItemId string) (string, error)
-	PutLineItemBid(lineItemId string, newBid float64) (string, error)
+	PutLineItem(lineItemId string, lineItem LineItemPutBodyData) (string, error)
 }
 
 //ApiClient is an implementation of a client interface with Apikey and Mopub Publisher management API url
@@ -109,9 +110,14 @@ type ApiClient struct {
 	BaseUrl string `json:"base_url"`
 }
 
+// NewClient makes a new Api client for Mopub Publisher management API calls
+func NewClient(apiKey, baseUrl string) ApiClient {
+	return ApiClient{ApiKey: apiKey, BaseUrl: baseUrl}
+}
+
 // GenerateApiClient makes a new Api client for Mopub Publisher management API calls
 func GenerateApiClient(apiKey string) ApiClient {
-	return ApiClient{ApiKey: apiKey, BaseUrl: baseUrl}
+	return ApiClient{ApiKey: apiKey, BaseUrl: DefaultBaseUrl}
 }
 
 func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error) {
@@ -153,13 +159,12 @@ func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error)
 	return result, nil
 }
 
-func (a ApiClient) PutLineItemBid(lineItemId string, newBid float64) (LineItemResponseValue, error) {
+func (a ApiClient) PutLineItem(lineItemId string, lineItem LineItemPutBodyData) (LineItemResponseValue, error) {
 	mopubUrl := a.BaseUrl + lineItemId
 
-	data := &LineItemPutBodyData{Bid: newBid}
 	c := &LineItemPutBody{
 		Op:   "set",
-		Data: *data,
+		Data: lineItem,
 	}
 
 	buff, err := json.Marshal(c)
