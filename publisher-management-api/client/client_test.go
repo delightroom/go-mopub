@@ -5,24 +5,24 @@ import (
 	"testing"
 )
 
-// //Test GetLineItem will test GetLineItem method
-// //required env :MOPUB_PM_API_KEY
-// func TestGetLineItem(t *testing.T) {
-// 	apiKey := os.Getenv("MOPUB_PM_API_KEY")
-// 	baseUrl := DefaultBaseUrl
-// 	c := NewClient(apiKey, baseUrl)
-// 	testKey := "fcc018399741425798e3503b554dd21d"
-// 	got, err := c.GetLineItem(testKey)
-// 	if err != nil {
-// 		t.Error(err)
-// 	}
-// 	gotBid := got.Bid
-// 	want := 0.057
+//Test GetLineItem will test GetLineItem method
+//required env :MOPUB_PM_API_KEY
+func TestGetLineItem(t *testing.T) {
+	apiKey := os.Getenv("MOPUB_PM_API_KEY")
+	baseUrl := DefaultBaseUrl
+	c := NewClient(apiKey, baseUrl)
+	testKey := "69c0c8d4859341ffb61e06d15b3cccfc"
+	got, err := c.GetLineItem(testKey)
+	if err != nil {
+		t.Error(err)
+	}
+	gotBid := got.Bid
+	want := 0.01
 
-// 	if gotBid != want {
-// 		t.Errorf("got %f want %f", gotBid, want)
-// 	}
-// }
+	if gotBid != want {
+		t.Errorf("got %f want %f", gotBid, want)
+	}
+}
 
 func TestPutLineItem(t *testing.T) {
 	apiKey := os.Getenv("MOPUB_PM_API_KEY")
@@ -30,17 +30,25 @@ func TestPutLineItem(t *testing.T) {
 	c := NewClient(apiKey, baseUrl)
 	testKey := "fcc018399741425798e3503b554dd21d"
 	lineItem := LineItemPutBodyData{
-		Bid:  0.6,
-		Name: "Mopub_T7 - WW_OS_TESTT",
+		Bid:  0.4,
+		Name: "Mopub_T7 - WW_OS_TEST",
 	}
-	got, err := c.PutLineItem(testKey, lineItem)
+	resp, err := c.PutLineItem(testKey, lineItem)
 	if err != nil {
 		t.Error(err)
 	}
-	gotBid := got.Bid
-	want := 0.6
 
-	if gotBid != want {
-		t.Errorf("got %f want %f", gotBid, want)
+	got := LineItemPutBodyData{
+		Bid:  resp.Bid,
+		Name: resp.Name,
+	}
+
+	want := LineItemPutBodyData{
+		Bid:  0.4,
+		Name: "Mopub_T7 - WW_OS_TEST",
+	}
+
+	if got != want {
+		t.Errorf("got %v want %v", got, want)
 	}
 }

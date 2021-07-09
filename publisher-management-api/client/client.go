@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/pkg/errors"
 )
 
 // LineItemOverrideFields is a subset field of LineItemResponseValue
@@ -170,7 +172,7 @@ func (a ApiClient) PutLineItem(lineItemId string, lineItem LineItemPutBodyData) 
 	buff, err := json.Marshal(c)
 
 	if err != nil {
-		return LineItemResponseValue{}, err
+		return LineItemResponseValue{}, errors.Wrap(err, "Marshal...")
 	}
 	req, err := http.NewRequest(http.MethodPut, mopubUrl, bytes.NewBuffer(buff))
 
@@ -179,25 +181,25 @@ func (a ApiClient) PutLineItem(lineItemId string, lineItem LineItemPutBodyData) 
 	req.Header.Add("x-api-key", a.ApiKey)
 
 	if err != nil {
-		return LineItemResponseValue{}, err
+		return LineItemResponseValue{}, errors.Wrap(err, "NewRequest...")
 	}
 
 	// initialize http client
 	client := &http.Client{}
 	if err != nil {
-		return LineItemResponseValue{}, err
+		return LineItemResponseValue{}, errors.Wrap(err, "client...")
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return LineItemResponseValue{}, err
+		return LineItemResponseValue{}, errors.Wrap(err, "client.Do...")
 	}
 
 	defer resp.Body.Close()
 	fmt.Println("📮postApi resp.StatusCode:", resp.StatusCode)
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
-
+	// fmt.Println("str result of response...", str)
 	var LineItemResponse LineItemResponse
 
 	err = json.Unmarshal([]byte(str), &LineItemResponse)
