@@ -25,7 +25,7 @@ type LineItemResponseValue struct {
 	AllocationPercentage float64  `json:"allocationPercentage"`
 	AutoCpm              float64  `json:"autoCpm"`
 	Bid                  float64  `json:"bid"`
-	Budget               string   `json:"budget"`
+	Budget               int64    `json:"budget"`
 	BudgetStrategy       string   `json:"budgetStrategy"`
 	BudgetType           string   `json:"budgetType"`
 	DayParts             []string `json:"dayParts"`
@@ -92,8 +92,10 @@ type LineItemPutBodyData struct {
 	AllowVideo   string  `json:"allowVideo,omitempty"`   //Possible values: non_video, all, video
 	VideoSetting string  `json:"videoSetting,omitempty"` //Possible values: both, non_skippable, skippable
 	Enabled      bool    `json:"enabled,omitempty"`      //note : Enabled doesn't exist on get&put response -> needs to be tested in the browser for now
-	Archived     bool    `json:"archived,omitempty"`     // true -> status(archived) & false ->status(campaign-archived)
-	Status       string  `json:"status,omitempty"`       // to see the output of Archived field...! not to change status directly(not supported)
+	Archived     bool    `json:"archived,omitempty"`     //true -> status(archived) & false ->status(campaign-archived)
+	Status       string  `json:"status,omitempty"`       //to see the output of Archived field...! not to change status directly(not supported)
+	Budget       int64   `json:"budget,omitempty"`       //Must specify budget if budget type not unlimited
+	BudgetType   string  `json:"budgetType,omitempty"`   //if budgtType is limited, budget becomes null
 }
 
 //LineItemPutBody is a struct for a body parameter of Mopub lineitem post API

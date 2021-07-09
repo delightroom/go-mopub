@@ -36,7 +36,9 @@ func TestPutLineItem(t *testing.T) {
 		VideoSetting: "skippable",
 		Enabled:      false, //Enabled 값의 경우 response에 없어서 현재로써는 따로 browser에서 테스트 결과를 확인해야 한다.
 		//Enabled 값만 바꿔서 호출하면 변경이 안되는데, 다른값도 바꿔서 전송하면 변경이 된다???
-		Archived: true, //true -> status(archived), false -> status(campaign-archived)
+		Archived:   true, //true -> status(archived), false -> status(campaign-archived)
+		BudgetType: "unlimited",
+		// Budget:     3,
 	}
 	resp, err := c.PutLineItem(testKey, lineItem)
 	if err != nil {
@@ -49,6 +51,8 @@ func TestPutLineItem(t *testing.T) {
 		AllowVideo:   resp.AllowVideo,
 		VideoSetting: resp.VideoSetting,
 		Status:       resp.Status,
+		BudgetType:   resp.BudgetType,
+		Budget:       resp.Budget,
 	}
 
 	want := LineItemPutBodyData{
@@ -57,6 +61,8 @@ func TestPutLineItem(t *testing.T) {
 		AllowVideo:   "video",
 		VideoSetting: "skippable",
 		Status:       "archived",
+		BudgetType:   "unlimited",
+		// Budget:       3,
 	}
 
 	if got != want {
