@@ -87,8 +87,11 @@ type LineItemResponse struct {
 
 //LineItemPutBodyData is subset of LineItemUpdateBody to carry a bid number to be updated
 type LineItemPutBodyData struct {
-	Name string  `json:"name,omitempty"`
-	Bid  float64 `json:"bid,omitempty"`
+	Name         string  `json:"name,omitempty"`
+	Bid          float64 `json:"bid,omitempty"`
+	AllowVideo   string  `json:"allowVideo,omitempty"`   //Possible values: non_video, all, video
+	VideoSetting string  `json:"videoSetting,omitempty"` //Possible values: both, non_skippable, skippable
+
 }
 
 //LineItemPutBody is a struct for a body parameter of Mopub lineitem post API
@@ -199,7 +202,7 @@ func (a ApiClient) PutLineItem(lineItemId string, lineItem LineItemPutBodyData) 
 	fmt.Println("📮postApi resp.StatusCode:", resp.StatusCode)
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
-	// fmt.Println("str result of response...", str)
+	fmt.Println("str result of response...", str)
 	var LineItemResponse LineItemResponse
 
 	err = json.Unmarshal([]byte(str), &LineItemResponse)

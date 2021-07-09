@@ -30,8 +30,10 @@ func TestPutLineItem(t *testing.T) {
 	c := NewClient(apiKey, baseUrl)
 	testKey := "fcc018399741425798e3503b554dd21d"
 	lineItem := LineItemPutBodyData{
-		Bid:  0.4,
-		Name: "Mopub_T7 - WW_OS_TEST",
+		Bid:          0.4,
+		Name:         "Mopub_T7 - WW_OS_TEST",
+		AllowVideo:   "video", //false
+		VideoSetting: "skippable",
 	}
 	resp, err := c.PutLineItem(testKey, lineItem)
 	if err != nil {
@@ -39,13 +41,17 @@ func TestPutLineItem(t *testing.T) {
 	}
 
 	got := LineItemPutBodyData{
-		Bid:  resp.Bid,
-		Name: resp.Name,
+		Bid:          resp.Bid,
+		Name:         resp.Name,
+		AllowVideo:   resp.AllowVideo,
+		VideoSetting: resp.VideoSetting,
 	}
 
 	want := LineItemPutBodyData{
-		Bid:  0.4,
-		Name: "Mopub_T7 - WW_OS_TEST",
+		Bid:          0.4,
+		Name:         "Mopub_T7 - WW_OS_TEST",
+		AllowVideo:   "video",
+		VideoSetting: "skippable",
 	}
 
 	if got != want {
