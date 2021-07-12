@@ -3,6 +3,8 @@ package client
 import (
 	"os"
 	"testing"
+
+	"github.com/go-test/deep"
 )
 
 //Test GetLineItem will test GetLineItem method
@@ -24,11 +26,14 @@ func TestGetLineItem(t *testing.T) {
 	}
 }
 
+//Test TestPutLineItem will test PutLineItem method
+//required env :MOPUB_PM_API_KEY
 func TestPutLineItem(t *testing.T) {
 	apiKey := os.Getenv("MOPUB_PM_API_KEY")
 	baseUrl := DefaultBaseUrl
 	c := NewClient(apiKey, baseUrl)
 	testKey := "fcc018399741425798e3503b554dd21d"
+	adUnitKeys := []string{"a6c828b21aba4ae6bf2d8d7bfaf87e83", "1081d00562a24ca5869147a7e1a9a7df", "614f31b0392848a7851f4fc13115d5e6", "996c13fec41c4ef6a18a3d93104050ff", "5f5107f7ff7549b7a7b881b394057389", "a4184b7f4b4f4af19dc0c5db03b40fc8", "47648e92fd96424d964c1570f350f2ae"}
 	lineItem := LineItemPutBodyData{
 		Bid:          0.4,
 		Name:         "Mopub_T7 - WW_OS_TEST",
@@ -39,7 +44,9 @@ func TestPutLineItem(t *testing.T) {
 		Archived:   true, //true -> status(archived), false -> status(campaign-archived)
 		BudgetType: "unlimited",
 		// Budget:     3,
+		AdUnitKeys: adUnitKeys,
 	}
+
 	resp, err := c.PutLineItem(testKey, lineItem)
 	if err != nil {
 		t.Error(err)
@@ -53,6 +60,7 @@ func TestPutLineItem(t *testing.T) {
 		Status:       resp.Status,
 		BudgetType:   resp.BudgetType,
 		Budget:       resp.Budget,
+		AdUnitKeys:   resp.AdUnitKeys,
 	}
 
 	want := LineItemPutBodyData{
@@ -63,9 +71,10 @@ func TestPutLineItem(t *testing.T) {
 		Status:       "archived",
 		BudgetType:   "unlimited",
 		// Budget:       3,
+		AdUnitKeys: adUnitKeys,
 	}
 
-	if got != want {
-		t.Errorf("got %v want %v", got, want)
+	if diff := deep.Equal(got, want); diff != nil {
+		t.Error(diff)
 	}
 }

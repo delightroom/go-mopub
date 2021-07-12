@@ -87,15 +87,16 @@ type LineItemResponse struct {
 
 //LineItemPutBodyData is subset of LineItemUpdateBody to carry a bid number to be updated
 type LineItemPutBodyData struct {
-	Name         string  `json:"name,omitempty"`
-	Bid          float64 `json:"bid,omitempty"`
-	AllowVideo   string  `json:"allowVideo,omitempty"`   //Possible values: non_video, all, video
-	VideoSetting string  `json:"videoSetting,omitempty"` //Possible values: both, non_skippable, skippable
-	Enabled      bool    `json:"enabled,omitempty"`      //note : Enabled doesn't exist on get&put response -> needs to be tested in the browser for now
-	Archived     bool    `json:"archived,omitempty"`     //true -> status(archived) & false ->status(campaign-archived)
-	Status       string  `json:"status,omitempty"`       //to see the output of Archived field...! not to change status directly(not supported)
-	Budget       int64   `json:"budget,omitempty"`       //Must specify budget if budget type not unlimited
-	BudgetType   string  `json:"budgetType,omitempty"`   //if budgtType is limited, budget becomes null
+	Name         string   `json:"name,omitempty"`
+	Bid          float64  `json:"bid,omitempty"`
+	AllowVideo   string   `json:"allowVideo,omitempty"`   //Possible values: non_video, all, video
+	VideoSetting string   `json:"videoSetting,omitempty"` //Possible values: both, non_skippable, skippable
+	Enabled      bool     `json:"enabled,omitempty"`      //note : Enabled doesn't exist on get&put response -> needs to be tested in the browser for now
+	Archived     bool     `json:"archived,omitempty"`     //true -> status(archived) & false ->status(campaign-archived)
+	Status       string   `json:"status,omitempty"`       //to see the output of Archived field...! not to change status directly(not supported)
+	Budget       int64    `json:"budget,omitempty"`       //Must specify budget if budget type not unlimited
+	BudgetType   string   `json:"budgetType,omitempty"`   //if budgtType is limited, budget becomes null
+	AdUnitKeys   []string `json:"adUnitKeys,omitempty"`
 }
 
 //LineItemPutBody is a struct for a body parameter of Mopub lineitem post API
@@ -156,7 +157,7 @@ func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error)
 	fmt.Println("📩 getApi resp.StatusCode:", resp.StatusCode)
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
-
+	// fmt.Println("str result of GET response...", str)
 	var LineItemResponse LineItemResponse
 
 	err = json.Unmarshal([]byte(str), &LineItemResponse)
@@ -206,7 +207,7 @@ func (a ApiClient) PutLineItem(lineItemId string, lineItem LineItemPutBodyData) 
 	fmt.Println("📮postApi resp.StatusCode:", resp.StatusCode)
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	str := string(bytes)
-	fmt.Println("str result of response...", str)
+	// fmt.Println("str result of PUT response...", str)
 	var LineItemResponse LineItemResponse
 
 	err = json.Unmarshal([]byte(str), &LineItemResponse)
