@@ -80,12 +80,12 @@ type LineItemResponseValue struct {
 	VideoSetting string `json:"videoSetting"`
 }
 
-//LineItemResponse is a struct to get a response of MoPub Publisher Management lineitem get API request
+// LineItemResponse is a struct to get a response of MoPub Publisher Management lineitem get API request
 type LineItemResponse struct {
 	LineItemResponseValue LineItemResponseValue `json:"data"`
 }
 
-//LineItemPutBodyData is subset of LineItemUpdateBody to carry a bid number to be updated
+// LineItemPutBodyData is subset of LineItemUpdateBody to carry a bid number to be updated
 type LineItemPutBodyData struct {
 	Name         string   `json:"name,omitempty"`
 	Bid          float64  `json:"bid,omitempty"`
@@ -99,37 +99,38 @@ type LineItemPutBodyData struct {
 	AdUnitKeys   []string `json:"adUnitKeys,omitempty"`
 }
 
-//LineItemPutBody is a struct for a body parameter of Mopub lineitem post API
+// LineItemPutBody is a struct for a body parameter of Mopub lineitem post API
 type LineItemPutBody struct {
 	Op   string              `json:"op"`
 	Data LineItemPutBodyData `json:"data"`
 }
 
+// DefaultBaseUrl is a currently given url from MoPub Publisher Management lineitem API docs
 var DefaultBaseUrl = "https://api.mopub.com/v2/line-items/"
 
-//QQQ
-//Client is an interface to make get/post request to MoPub publisher management API
+// Client is an interface to make get/post request to MoPub publisher Management API
 type Client interface {
 	GetLineItem(lineItemId string) (string, error)
 	PutLineItem(lineItemId string, lineItem LineItemPutBodyData) (string, error)
 }
 
-//ApiClient is an implementation of a client interface with Apikey and Mopub Publisher management API url
+// ApiClient is an implementation of a client interface with Apikey and Mopub Publisher Management API url
 type ApiClient struct {
 	ApiKey  string `json:"api_key"`
 	BaseUrl string `json:"base_url"`
 }
 
-// NewClient makes a new Api client for Mopub Publisher management API calls
+// NewClient makes a new Api client for Mopub Publisher Management API calls
 func NewClient(apiKey, baseUrl string) ApiClient {
 	return ApiClient{ApiKey: apiKey, BaseUrl: baseUrl}
 }
 
-// GenerateApiClient makes a new Api client for Mopub Publisher management API calls
+// GenerateApiClient makes a new Api client for Mopub Publisher Management API calls without url argument
 func GenerateApiClient(apiKey string) ApiClient {
 	return ApiClient{ApiKey: apiKey, BaseUrl: DefaultBaseUrl}
 }
 
+// GetLineItem is a method to call lineitem get request from Pub Publisher Management
 func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error) {
 	mopubUrl := a.BaseUrl + lineItemId
 	req, err := http.NewRequest("GET", mopubUrl, nil)
@@ -169,6 +170,7 @@ func (a ApiClient) GetLineItem(lineItemId string) (LineItemResponseValue, error)
 	return result, nil
 }
 
+// PutLineItem is a method to call lineitem put request from Pub Publisher Management
 func (a ApiClient) PutLineItem(lineItemId string, lineItem LineItemPutBodyData) (LineItemResponseValue, error) {
 	mopubUrl := a.BaseUrl + lineItemId
 
