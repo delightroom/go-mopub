@@ -2,7 +2,7 @@
 `go-mopub` is a library to make MoPub Api requests with golang
 
 
-`Version` Info: v0.1.5<br/><br/>
+`Version` Info: v0.1.8<br/><br/>
 
 ## How to get
 ```go
